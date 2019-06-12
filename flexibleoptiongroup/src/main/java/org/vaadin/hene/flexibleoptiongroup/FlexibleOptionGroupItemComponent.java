@@ -5,15 +5,16 @@ import org.vaadin.hene.flexibleoptiongroup.widgetset.client.ui.FlexibleOptionGro
 
 import com.vaadin.server.Resource;
 import com.vaadin.ui.AbstractComponent;
+import com.vaadin.ui.Component.Focusable;
 
 /**
  * {@link FlexibleOptionGroupItemComponent} represents a radio button or a check
  * box of an item in {@link FlexibleOptionGroup}.
- * 
+ *
  * @author Henri Kerola / Vaadin Ltd
- * 
  */
-public class FlexibleOptionGroupItemComponent extends AbstractComponent {
+public class FlexibleOptionGroupItemComponent extends AbstractComponent implements Focusable
+{
 
 	private final FlexibleOptionGroup owner;
 	private final Object itemId;
@@ -54,7 +55,7 @@ public class FlexibleOptionGroupItemComponent extends AbstractComponent {
 
 	/**
 	 * Returns the itemId of this FlexibleOptionGroupItemComponent.
-	 * 
+	 *
 	 * @return the itemId of this FlexibleOptionGroupItemComponent
 	 */
 	public Object getItemId() {
@@ -64,7 +65,7 @@ public class FlexibleOptionGroupItemComponent extends AbstractComponent {
 	/**
 	 * Returns the owner FlexibleOptionGroup of this
 	 * FlexibleOptionGroupItemComponent. Should never return null.
-	 * 
+	 *
 	 * @return the owner FlexibleOptionGroup of this
 	 *         FlexibleOptionGroupItemComponent
 	 */
@@ -75,7 +76,7 @@ public class FlexibleOptionGroupItemComponent extends AbstractComponent {
 	/**
 	 * Sets the caption of this FlexibleOptionGroupItemComponent. The method
 	 * does the same as calling getOwner().setItemCaption(getItemId(), caption).
-	 * 
+	 *
 	 * @param caption
 	 *            the caption of this FlexibleOptionGroupItemComponent
 	 */
@@ -87,7 +88,7 @@ public class FlexibleOptionGroupItemComponent extends AbstractComponent {
 	/**
 	 * Returns the caption of this FlexibleOptionGroupItemComponent. The method
 	 * returns the same value as calling getOwner().getItemCaption(getItemId()).
-	 * 
+	 *
 	 * @return the caption of this FlexibleOptionGroupItemComponent
 	 */
 	@Override
@@ -139,4 +140,22 @@ public class FlexibleOptionGroupItemComponent extends AbstractComponent {
 	public FlexibleOptionGroupItemComponentState getState() {
 		return (FlexibleOptionGroupItemComponentState) super.getState();
 	}
+
+	@Override
+    public void focus()
+	{
+	    super.focus();
+	}
+
+    @Override
+    public int getTabIndex()
+    {
+        return 0;
+    }
+
+    @Override
+    public void setTabIndex(int tabIndex)
+    {
+        // Not supported
+    }
 }
