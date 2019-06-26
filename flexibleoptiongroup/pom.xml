@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.vaadin.addons</groupId>
 	<artifactId>flexibleoptiongroup</artifactId>
-	<packaging>jar</packaging>
+    <packaging>jar</packaging>
 	<version>2.4.0.SEE1-SNAPSHOT</version>
 	<name>FlexibleOptionGroup</name>
 
@@ -27,19 +27,22 @@
 		<url>https://github.com/henrikerola/FlexibleOptionGroup/</url>
 	</organization>
 
-    <!--
-	<scm>
-		<url>git://github.com/mygithubaccount/FlexibleOptionGroup.git</url>
-		<connection>scm:git:git://github.com/mygithubaccount/FlexibleOptionGroup.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com:/mygithubaccount/${ComponentClassName}.git</developerConnection>
-		<tag>FlexibleOptionGroup add-on for Vaadin</tag>
-	</scm>
+    <scm>
+        <connection>scm:git:git@github.com:seeburger-ag/FlexibleOptionGroup.git</connection>
+        <developerConnection>scm:git:git@github.com:seeburger-ag/FlexibleOptionGroup.git</developerConnection>
+        <url>https://github.com/seeburger-ag/FlexibleOptionGroup</url>
+    </scm>
 
-	<issueManagement>
-		<system>GitHub</system>
-		<url>https://github.com/mygithubaccount/FlexibleOptionGroup/issues</url>
-	</issueManagement>
-    -->
+    <distributionManagement>
+        <repository>
+            <id>${distribution.release.id}</id>
+            <url>${distribution.release.url}</url>
+        </repository>
+        <snapshotRepository>
+            <id>${distribution.snapshot.id}</id>
+            <url>${distribution.snapshot.url}</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 	<licenses>
 		<license>
@@ -48,7 +51,6 @@
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
-
 	<repositories>
 		<repository>
 			<id>vaadin-addons</id>
@@ -91,7 +93,7 @@
 			<version>${vaadin.version}</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<!-- This can be replaced with TestNG or some other test framework supported by the surefire plugin -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -103,7 +105,6 @@
 
 	<build>
 		<plugins>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -113,14 +114,47 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.3.1</version>
-				<configuration>
-					<archive>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>bundle-manifest</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>manifest</goal>
+						</goals>
+					</execution>
+				</executions>
+                <configuration>
+                    <instructions>
+                        <Export-Package>
+                            org.vaadin.hene.flexibleoptiongroup
+						</Export-Package>
+                        <Import-Package>
+                            !com.vaadin.client.*,
+                            !com.google.gwt.*,
+                            com.vaadin.*
+                        </Import-Package>
+						<_nouses>true</_nouses>
+						<_noee>true</_noee>
+                    </instructions>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
 						<index>true</index>
+						<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
@@ -131,10 +165,12 @@
 							<Vaadin-License-Title>${Vaadin-License-Title}</Vaadin-License-Title>
 							<Vaadin-Widgetsets>org.vaadin.hene.flexibleoptiongroup.widgetset.FlexibleOptionGroupWidgetset</Vaadin-Widgetsets>
 						</manifestEntries>
-					</archive>
-				</configuration>
-			</plugin>
-			
+                            </archive>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
@@ -191,7 +227,7 @@
 			</plugin>
 		</plugins>
 
-		<!-- This is needed for the sources required by the client-side compiler to be 
+		<!-- This is needed for the sources required by the client-side compiler to be
 			included in the produced JARs -->
 		<resources>
 			<resource>
@@ -204,7 +240,7 @@
 				<directory>src/main/resources</directory>
 			</resource>
 		</resources>
-		
+
 	</build>
 
 </project>
